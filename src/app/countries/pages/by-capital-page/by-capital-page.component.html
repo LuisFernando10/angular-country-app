@@ -3,7 +3,10 @@
 
 <div class="row">
   <div class="col">
-    <shared-search-box placeholder="Ingrese el nombre de una capital" />
+    <shared-search-box
+      placeholder="Ingrese el nombre de una capital"
+      (onValue)="searchByCapital($event)"
+    />
     <hr />
   </div>
 </div>
