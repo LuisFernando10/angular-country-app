@@ -6,25 +6,13 @@ import { ContactPageComponent } from './shared/pages/contact/contact-page.compon
 
 const routes: Routes = [
   {
-    path: '',
-    component: HomePageComponent,
-  },
-  {
-    path: 'about',
-    component: AboutPageComponent,
-  },
-  {
-    path: 'contact',
-    component: ContactPageComponent,
-  },
-  {
     path: 'countries',
     loadChildren: () =>
       import('./countries/countries.module').then((mod) => mod.CountriesModule),
   },
   {
     path: '**',
-    redirectTo: '',
+    redirectTo: 'countries',
   },
 ];
 
