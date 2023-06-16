@@ -9,8 +9,20 @@ export class CountriesService {
 
   constructor(private _http: HttpClient) {}
 
-  searchCapital(query: string): Observable<Country[]> {
-    const url = `${this._apiUrl}/capital/${query}`;
+  searchCapital(capital: string): Observable<Country[]> {
+    const url = `${this._apiUrl}/capital/${capital}`;
+
+    return this._http.get<Country[]>(url).pipe(catchError(() => of([])));
+  }
+
+  searchCountry(country: string): Observable<Country[]> {
+    const url = `${this._apiUrl}/name/${country}`;
+
+    return this._http.get<Country[]>(url).pipe(catchError(() => of([])));
+  }
+
+  searchRegion(region: string): Observable<Country[]> {
+    const url = `${this._apiUrl}/region/${region}`;
 
     return this._http.get<Country[]>(url).pipe(catchError(() => of([])));
   }
