@@ -7,12 +7,14 @@ import { ContactPageComponent } from './pages/contact/contact-page.component';
 import { HomePageComponent } from './pages/home-page/home-page.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { SearchBoxComponent } from './components/searchBox/search-box.component';
+import { LoadingSpinnerComponent } from './components/loading-spinner/loading-spinner.component';
 
 @NgModule({
   declarations: [
     AboutPageComponent,
     ContactPageComponent,
     HomePageComponent,
+    LoadingSpinnerComponent,
     SearchBoxComponent,
     SidebarComponent,
   ],
@@ -21,6 +23,7 @@ import { SearchBoxComponent } from './components/searchBox/search-box.component'
     AboutPageComponent,
     ContactPageComponent,
     HomePageComponent,
+    LoadingSpinnerComponent,
     SearchBoxComponent,
     SidebarComponent,
   ],
