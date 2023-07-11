@@ -11,10 +11,12 @@
   </div>
 </div>
 
-<div class="row">
+<div *ngIf="isLoading" class="row mt-4">
+  <shared-loading-spinner style="display: flex; justify-content: center" />
+</div>
+
+<div *ngIf="!isLoading" class="row">
   <div class="col">
     <countries-table [countries]="countries" />
   </div>
 </div>
-
-<shared-loading-spinner style="display: flex; justify-content: center" />
