@@ -4,8 +4,9 @@
 <div class="row">
   <div class="col">
     <shared-search-box
-      placeholder="Ingrese el nombre de una capital"
       (onDebounce)="searchByCapital($event)"
+      [initialTerm]="initialTerm"
+      placeholder="Ingrese el nombre de una capital"
     />
     <hr />
   </div>
