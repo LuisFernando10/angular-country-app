@@ -15,13 +15,25 @@ export class CountriesService {
     byRegion: { region: '', countries: [] },
   };
 
-  constructor(private _http: HttpClient) {}
+  constructor(private _http: HttpClient) {
+    this._loadFromLocalStorage();
+  }
 
   private _getCountriesRequest(url: string): Observable<Country[]> {
     return this._http.get<Country[]>(url).pipe(
       catchError(() => of([]))
       //delay(2000) TODO: It's not neccessary anymore with the debouncer implementations
     );
+  }
+
+  private _saveToLocalStorage() {
+    localStorage.setItem('cacheStore', JSON.stringify(this.cacheStore));
+  }
+
+  private _loadFromLocalStorage() {
+    if (!localStorage.getItem('cacheStore')) return;
+
+    this.cacheStore = JSON.parse(localStorage.getItem('cacheStore')!);
   }
 
   searchCountryByCode(code: string): Observable<Country | null> {
@@ -40,7 +52,8 @@ export class CountriesService {
       tap(
         (countries) =>
           (this.cacheStore.byCapital = { countries, term: capital })
-      )
+      ),
+      tap(() => this._saveToLocalStorage())
     );
   }
 
@@ -51,7 +64,8 @@ export class CountriesService {
       tap(
         (countries) =>
           (this.cacheStore.byCountries = { countries, term: country })
-      )
+      ),
+      tap(() => this._saveToLocalStorage())
     );
   }
 
@@ -59,7 +73,8 @@ export class CountriesService {
     const url = `${this._apiUrl}/region/${region}`;
 
     return this._getCountriesRequest(url).pipe(
-      tap((countries) => (this.cacheStore.byRegion = { countries, region }))
+      tap((countries) => (this.cacheStore.byRegion = { countries, region })),
+      tap(() => this._saveToLocalStorage())
     );
   }
 }
