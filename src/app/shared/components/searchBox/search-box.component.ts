@@ -2,18 +2,20 @@ import {
   Component,
   EventEmitter,
   Input,
+  OnDestroy,
   OnInit,
   Output,
   ViewChild,
 } from '@angular/core';
-import { Subject, debounceTime } from 'rxjs';
+import { Subject, Subscription, debounceTime } from 'rxjs';
 
 @Component({
   selector: 'shared-search-box',
   templateUrl: './search-box.component.html',
 })
-export class SearchBoxComponent implements OnInit {
-  private debouncer: Subject<string> = new Subject<string>();
+export class SearchBoxComponent implements OnInit, OnDestroy {
+  private _debouncer: Subject<string> = new Subject<string>();
+  private _debouncerSubscription!: Subscription;
 
   @Input()
   public placeholder: string = '';
@@ -22,9 +24,11 @@ export class SearchBoxComponent implements OnInit {
   public onDebounce: EventEmitter<string> = new EventEmitter();
 
   ngOnInit(): void {
-    this.debouncer.pipe(debounceTime(500)).subscribe((value) => {
-      this.onDebounce.emit(value);
-    });
+    this._debouncerSubscription = this._debouncer
+      .pipe(debounceTime(500))
+      .subscribe((value) => {
+        this.onDebounce.emit(value);
+      });
   }
 
   // TODO: Obsolete, I implemented the debouncer property
@@ -33,6 +37,10 @@ export class SearchBoxComponent implements OnInit {
   // }
 
   onKeyPress(searchTerm: string) {
-    this.debouncer.next(searchTerm);
+    this._debouncer.next(searchTerm);
+  }
+
+  ngOnDestroy(): void {
+    this._debouncerSubscription.unsubscribe();
   }
 }
