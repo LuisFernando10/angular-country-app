@@ -11,10 +11,14 @@ export class ByCountryPageComponent {
   constructor(private _countriesService: CountriesService) {}
 
   public countries: Country[] = [];
+  public isLoading: boolean = false;
 
   searchByCountry(country: string): void {
+    this.isLoading = true;
+
     this._countriesService.searchCountry(country).subscribe((countries) => {
       this.countries = countries;
+      this.isLoading = false;
     });
   }
 }
